@@ -27,6 +27,18 @@ func NewScheduleHandler2(service *ScheduleService) *ScheduleHandler {
 	return &ScheduleHandler{ScheduleService: service}
 }
 
+// @Summary Создать расписание для комнаты
+// @Tags Schedule
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param roomId path string true "ID комнаты"
+// @Param request body CreateScheduleRequest true "Данные расписания"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 403 {object} map[string]interface{}
+// @Failure 409 {object} map[string]interface{}
+// @Router /rooms/{roomId}/schedule/create [post]
 func (handler *ScheduleHandler) Create(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("roomId")
 	roomID, err := uuid.Parse(idStr)
@@ -81,6 +93,16 @@ func (handler *ScheduleHandler) Create(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary Получить слоты комнаты на дату
+// @Tags Schedule
+// @Security BearerAuth
+// @Produce json
+// @Param roomId path string true "ID комнаты"
+// @Param date query string true "Дата (YYYY-MM-DD)"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /rooms/{roomId}/slots/list [get]
 func (handler *ScheduleHandler) GetSlots(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("roomId")
 	roomID, err := uuid.Parse(idStr)

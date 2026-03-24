@@ -1,3 +1,11 @@
+// @title Room Booking Service
+// @version 1.0
+// @description Сервис бронирования переговорок
+// @host localhost:8080
+// @BasePath /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 package main
 
 import (
@@ -11,6 +19,8 @@ import (
 	"Avito/pkg/db"
 	"fmt"
 	"net/http"
+	"github.com/swaggo/http-swagger"
+	_ "Avito/docs"
 )
 
 func App() http.Handler {
@@ -41,6 +51,7 @@ func App() http.Handler {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, `{"status":"ok"}`)
 	})
+	router.Handle("GET /swagger/", httpSwagger.WrapHandler)
 
 	return router
 }

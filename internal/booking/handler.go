@@ -29,6 +29,16 @@ func NewBookingHandler2(service *BookingService) *BookingHandler {
 	return &BookingHandler{BookingService: service}
 }
 
+// @Summary Создать бронь
+// @Tags Bookings
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body CreateBookingRequest true "Данные брони"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 409 {object} map[string]interface{}
+// @Router /bookings/create [post]
 func (h *BookingHandler) Create(w http.ResponseWriter, r *http.Request) {
 	userIDStr, ok := r.Context().Value(middleware.ContextUserID).(string)
 	if !ok {
@@ -84,6 +94,15 @@ func (h *BookingHandler) Create(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary Отменить бронь
+// @Tags Bookings
+// @Security BearerAuth
+// @Produce json
+// @Param bookingId path string true "ID брони"
+// @Success 200 {object} map[string]interface{}
+// @Failure 403 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Router /bookings/{bookingId}/cancel [post]
 func (h *BookingHandler) Cancel(w http.ResponseWriter, r *http.Request) {
 	userIDStr, ok := r.Context().Value(middleware.ContextUserID).(string)
 	if !ok {
@@ -130,6 +149,13 @@ func (h *BookingHandler) Cancel(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary Мои брони
+// @Tags Bookings
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Router /bookings/my [get]
 func (h *BookingHandler) GetMy(w http.ResponseWriter, r *http.Request) {
 	userIDStr, ok := r.Context().Value(middleware.ContextUserID).(string)
 	if !ok {
@@ -166,6 +192,15 @@ func (h *BookingHandler) GetMy(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary Все брони (admin)
+// @Tags Bookings
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Страница"
+// @Param pageSize query int false "Размер страницы"
+// @Success 200 {object} map[string]interface{}
+// @Failure 403 {object} map[string]interface{}
+// @Router /bookings/list [get]
 func (h *BookingHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	page, err := strconv.Atoi(r.URL.Query().Get("page"))
 	if err != nil || page < 1 {

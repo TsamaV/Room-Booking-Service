@@ -91,7 +91,7 @@ func TestCreateRoomScheduleBooking(t *testing.T) {
 	roomID := roomResp["room"]["id"]
 
 	scheduleBody, _ := json.Marshal(map[string]any{
-		"day_of_week": []int{0, 1, 2, 3, 4, 5, 6},
+		"day_of_week": []int{1, 2, 3, 4, 5, 6, 7},
 		"start_time":  "09:00",
 		"end_time":    "18:00",
 	})
@@ -106,7 +106,7 @@ func TestCreateRoomScheduleBooking(t *testing.T) {
 		t.Fatalf("expected 201 for schedule creation, got %d: %s", w.Code, w.Body.String())
 	}
 
-	req = httptest.NewRequest("GET", "/rooms/"+roomID+"/slots/list?date=2026-03-23", nil)
+	req = httptest.NewRequest("GET", "/rooms/"+roomID+"/slots/list?date=2026-03-29", nil)
 	req.Header.Set("Authorization", "Bearer "+userToken)
 	req.SetPathValue("roomId", roomID)
 	w = httptest.NewRecorder()
@@ -156,7 +156,7 @@ func TestCancelBooking(t *testing.T) {
 	roomID := roomResp["room"]["id"]
 
 	scheduleBody, _ := json.Marshal(map[string]any{
-		"day_of_week": []int{0, 1, 2, 3, 4, 5, 6},
+		"day_of_week": []int{1, 2, 3, 4, 5, 6, 7},
 		"start_time":  "09:00",
 		"end_time":    "18:00",
 	})
@@ -167,7 +167,7 @@ func TestCancelBooking(t *testing.T) {
 	w = httptest.NewRecorder()
 	app.ServeHTTP(w, req)
 
-	req = httptest.NewRequest("GET", "/rooms/"+roomID+"/slots/list?date=2026-03-23", nil)
+	req = httptest.NewRequest("GET", "/rooms/"+roomID+"/slots/list?date=2026-03-29", nil)
 	req.Header.Set("Authorization", "Bearer "+userToken)
 	req.SetPathValue("roomId", roomID)
 	w = httptest.NewRecorder()

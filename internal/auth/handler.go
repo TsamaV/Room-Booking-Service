@@ -20,6 +20,14 @@ func NewAuthHandler(router *http.ServeMux, service *AuthService) {
 	router.HandleFunc("POST /register", handler.Register)
 }
 
+// @Summary Получить тестовый JWT
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body DummyLoginRequest true "Роль"
+// @Success 200 {object} TokenResponse
+// @Failure 400 {object} map[string]interface{}
+// @Router /dummyLogin [post]
 func (h *AuthHandler) DummyLogin(w http.ResponseWriter, r *http.Request) {
 	body, err := req.Decode[DummyLoginRequest](r)
 	if err != nil {
@@ -36,6 +44,14 @@ func (h *AuthHandler) DummyLogin(w http.ResponseWriter, r *http.Request) {
 	res.JSON(w, http.StatusOK, TokenResponse{Token: token})
 }
 
+// @Summary Авторизация
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "Email и пароль"
+// @Success 200 {object} TokenResponse
+// @Failure 401 {object} map[string]interface{}
+// @Router /login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	body, err := req.Decode[LoginRequest](r)
 	if err != nil {
@@ -52,6 +68,14 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	res.JSON(w, http.StatusOK, TokenResponse{Token: token})
 }
 
+// @Summary Регистрация
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body RegisterRequest true "Email и пароль"
+// @Success 201 {object} TokenResponse
+// @Failure 400 {object} map[string]interface{}
+// @Router /register [post]
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	body, err := req.Decode[RegisterRequest](r)
 	if err != nil {

@@ -26,6 +26,16 @@ func NewRoomHandler2(service *RoomService) *RoomHandler {
 	return &RoomHandler{RoomService: service}
 }
 
+// @Summary Создать комнату
+// @Tags Rooms
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body CreateRoomRequest true "Данные комнаты"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 403 {object} map[string]interface{}
+// @Router /rooms/create [post]
 func (handler *RoomHandler) Create(w http.ResponseWriter, r *http.Request) {
 	body, err := req.Decode[CreateRoomRequest](r)
 	if err != nil {
@@ -50,6 +60,13 @@ func (handler *RoomHandler) Create(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary Список всех комнат
+// @Tags Rooms
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Router /rooms/list [get]
 func (handler *RoomHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	rooms, err := handler.RoomService.GetAll()
 	if err != nil {
