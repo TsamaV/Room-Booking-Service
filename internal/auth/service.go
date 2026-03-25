@@ -52,7 +52,7 @@ func (service *AuthService) Register(email, password string) (string, error) {
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	user := &user.User{
 		Email:    email,

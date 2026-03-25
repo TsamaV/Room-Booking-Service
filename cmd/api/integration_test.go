@@ -8,7 +8,7 @@ import (
 	"Avito/internal/schedule"
 	"Avito/internal/slot"
 	"Avito/internal/user"
-	"Avito/pkg/db"
+	"Avito/internal/db"
 	"bytes"
 	"encoding/json"
 	"net/http"

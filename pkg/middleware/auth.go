@@ -15,6 +15,11 @@ const (
 	ContextRole   key = "role"
 )
 
+const (
+    RoleAdmin = "admin"
+    RoleUser  = "user"
+)
+
 func writeUnauthed(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusUnauthorized)
 	w.Write([]byte(http.StatusText(http.StatusUnauthorized)))
@@ -54,7 +59,7 @@ func IsAuthed(next http.Handler, jwtSecret string) http.Handler {
 func AdminOnly(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		role, ok := r.Context().Value(ContextRole).(string)
-		if !ok || role != "admin" {
+		if !ok || role != RoleAdmin {
 			http.Error(w, "forbidden", http.StatusForbidden)
 			return
 		}
@@ -65,7 +70,7 @@ func AdminOnly(next http.Handler) http.Handler {
 func UserOnly(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		role, ok := r.Context().Value(ContextRole).(string)
-		if !ok || role != "user" {
+		if !ok || role != RoleUser {
 			http.Error(w, "forbidden", http.StatusForbidden)
 			return
 		}

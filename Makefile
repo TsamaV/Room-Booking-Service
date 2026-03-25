@@ -1,24 +1,14 @@
 up:
-	docker-compose up -d --build
+	docker compose up -d --build
 
 down:
-	docker-compose down
+	docker compose down -v
 
-build:
-	go build -o bin/app ./cmd/api/
+seed:
+	docker compose exec postgres psql -U postgres -d booking -f /postgres-seed/seed.sql
 
-run:
-	go run ./cmd/api
-
-migrate:
-	go run ./migrations/auto.go
+logs:
+	docker compose logs -f app_go
 
 test:
-	go test ./...
-
-test-unit:
-	go test ./internal/... ./pkg/... ./configs/...
-
-test-integration:
-	go test ./... -run TestCreateRoomScheduleBooking -v
-	go test ./... -run TestCancelBooking -v
+	go test ./... -cover

@@ -42,17 +42,25 @@ func (service *BookingService) Create(userID, slotID uuid.UUID) (*Booking, error
 		return nil, errors.New("cannot book a slot in the past")
 	}
 
-	existing, _ := service.bookingRepo.GetActiveBySlotID(slotID)
-	if existing != nil {
-		return nil, errors.New("slot is already booked")
-	}
-
 	booking := &Booking{
 		SlotID: slotID,
 		UserID: userID,
 		Status: "active",
 	}
-	return service.bookingRepo.Create(booking)
+
+	created, err := service.bookingRepo.Create(booking)
+	if err != nil {
+		if isDuplicateKeyError(err) {
+			return nil, errors.New("slot is already booked")
+		}
+		return nil, err
+	}
+	return created, nil
+}
+
+func isDuplicateKeyError(err error) bool {
+	return err != nil && (err.Error() == "ERROR: duplicate key value violates unique constraint \"idx_active_booking_slot\" (SQLSTATE 23505)" ||
+		err.Error() == "duplicate key value violates unique constraint \"idx_active_booking_slot\"")
 }
 
 func (service *BookingService) Cancel(bookingID, userID uuid.UUID) (*Booking, error) {

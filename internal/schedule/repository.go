@@ -1,7 +1,7 @@
 package schedule
 
 import (
-	"Avito/pkg/db"
+	"Avito/internal/db"
 
 	"github.com/google/uuid"
 )

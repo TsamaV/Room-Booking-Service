@@ -1,7 +1,7 @@
 package slot
 
 import (
-	"Avito/pkg/db"
+	"Avito/internal/db"
 	"time"
 
 	"github.com/google/uuid"
