@@ -25,8 +25,9 @@ services:
     build: .
     ports:
       - "8080:8080"
-    env_file:
-      - .env
+    environment:
+      DSN: postgres://postgres:my_pass@postgres:5432/booking?sslmode=disable
+      SECRET: secret
     depends_on:
       postgres:
         condition: service_healthy
