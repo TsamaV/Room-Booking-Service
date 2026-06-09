@@ -30,8 +30,8 @@
 
 ```bash
 # клонировать репозиторий
-git clone https://github.com/avito-internships/test-backend-1-TsamaV
-cd AVITO
+git clone https://github.com/TsamaV/Room-Booking-Service
+cd Room-Booking-Service
 
 # запустить сервисы (PostgreSQL + приложение)
 make up
